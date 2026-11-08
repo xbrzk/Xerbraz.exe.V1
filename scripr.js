@@ -120,11 +120,11 @@ document.addEventListener("DOMContentLoaded", () => {
      Tidak memakai fetch("images/").
   */
 
- const FOTO = {
+const FOTO = {
   hero: [
     "hero.png",
     "Rumah Modern A1 di Senja Hari-1.png",
-    "hero-3.png"
+    "Vila Modern Nomor 36 di Senja hari-3.png"
   ],
 
   unit: [
@@ -133,13 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
     "Vila Modern Nomor 36 di Senja hari-3.png"
   ],
 
-  kpr: "kpr.png",
+  kpr: "Rumah Modern Hangat Saat Senja-6.png",
 
   kontak: "Rumah Modern A1 di Senja Hari-1.png",
 
   strip: "Rumah Modern Hangat Saat Senja-6.png"
 };
-
   /* ===== 0A. LOGO DAN FOTO HTML ===== */
 
   document.querySelectorAll('img[src^="images/"]').forEach(img => {
