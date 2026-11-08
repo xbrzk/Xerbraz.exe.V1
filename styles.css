@@ -1,4 +1,4 @@
-root{--gold:#f0b95a;--gold2:#c8923a;--bg:#0b0b0d;--panel:#16161a;--line:rgba(240,185,90,.25);--text:#f3efe8;--muted:#a9a49a}
+:root{--gold:#f0b95a;--gold2:#c8923a;--bg:#0b0b0d;--panel:#16161a;--line:rgba(240,185,90,.25);--text:#f3efe8;--muted:#a9a49a}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
