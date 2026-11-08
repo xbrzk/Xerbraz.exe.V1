@@ -13,20 +13,11 @@
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
 <div class="loader" id="loader" role="status" aria-live="polite" aria-label="Memuat halaman">
-
   <div class="ls-grid"></div>
-
-  <!-- Rumah kerangka / blueprint (kiri): images/Bygron_laoding scren -->
   <img class="ls-layer ls-wire" data-role="wire" alt="">
-
-  <!-- Rumah malam hari (kanan): images/Bygron_laoding scren1 -->
   <img class="ls-layer ls-photo" data-role="photo" alt="">
-
   <i class="ls-corner tl"></i><i class="ls-corner br"></i>
-
-  <!-- Kepala: logo kecil + slogan -->
   <header class="ls-head">
     <div class="ls-brand">
       <img src="images/logo.png" alt="" onerror="this.style.display='none'">
@@ -35,17 +26,12 @@
     </div>
     <p class="ls-tag">Membangun masa depan<br>dengan <em>hunian terbaik</em></p>
   </header>
-
-  <!-- Logo R besar bercahaya (vektor SVG, tajam di semua layar) -->
   <div class="ls-center">
     <div class="ls-logo-wrap">
       <svg class="ls-svg" viewBox="0 0 320 252" role="img" aria-label="Xerbraz.exe">
         <defs>
-          <!-- bagian kanan: batang atas + lengkung + kaki kanan -->
           <path id="lsA" pathLength="1" d="M43 15H210C250 15 277 40 277 77V108C277 135 258 153 233 163L300 237H237L150 132H198C222 132 231 113 231 92C231 68 220 55 198 55H92Z"/>
-          <!-- bagian kiri: pita miring + kaki kiri -->
           <path id="lsB" pathLength="1" d="M20 75H143C168 75 181 97 187 112H107L213 237H153Z"/>
-
           <linearGradient id="lsPearlA" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#e8e5df"/><stop offset=".28" stop-color="#fbf8f1"/>
             <stop offset=".62" stop-color="#fffdf8"/><stop offset="1" stop-color="#efe8d8"/>
@@ -74,8 +60,6 @@
           <filter id="lsSoft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.6"/></filter>
           <clipPath id="lsClip"><use href="#lsA"/><use href="#lsB"/></clipPath>
         </defs>
-
-        <!-- garis bidik biru-cetak + cincin tipis di belakang logo -->
         <g class="ls-guides">
           <path d="M25 -70V330" stroke="url(#lsLineV)" stroke-width=".9" fill="none"/>
           <path d="M-80 10H420" stroke="url(#lsLineH)" stroke-width=".9" fill="none"/>
@@ -83,35 +67,23 @@
           <circle class="ls-ring" cx="160" cy="126" r="190" fill="none" stroke="#f0b95a" stroke-opacity=".3" stroke-width=".9" stroke-dasharray="1.5 7"/>
           <circle class="ls-ring r2" cx="160" cy="126" r="158" fill="none" stroke="#f0b95a" stroke-opacity=".18" stroke-width=".7"/>
         </g>
-
-        <!-- cahaya emas berdenyut di sekeliling tepi -->
         <g class="ls-halo" filter="url(#lsBlur)" fill="none" stroke="#f6a93c" stroke-width="9" stroke-linejoin="round">
           <use href="#lsA"/><use href="#lsB"/>
         </g>
-
-        <!-- permukaan kaca-mutiara -->
         <g class="ls-fill">
           <use href="#lsA" fill="url(#lsPearlA)"/>
           <use href="#lsB" fill="url(#lsPearlB)"/>
-          <!-- pantulan tepi dalam (efek kaca) -->
           <g clip-path="url(#lsClip)" opacity=".7">
             <g filter="url(#lsSoft)" fill="none" stroke="#fff" stroke-width="7" stroke-opacity=".55" stroke-linejoin="round">
               <use href="#lsA"/><use href="#lsB"/>
             </g>
           </g>
-          <!-- garis pembelah pada bagian kiri -->
           <path d="M107 113H187" stroke="#6d5a3a" stroke-opacity=".45" stroke-width="1" fill="none"/>
         </g>
-
-        <!-- tepi emas menyala (tergambar saat muncul) -->
         <g class="ls-rim" fill="none" stroke="url(#lsGold)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
           <use href="#lsA"/><use href="#lsB"/>
         </g>
-
-        <!-- kilau putih menyapu logo -->
         <g clip-path="url(#lsClip)"><rect class="ls-sweep" x="-80" y="-30" width="70" height="320" fill="url(#lsSweepG)"/></g>
-
-        <!-- kilatan bintang di sudut garis bidik -->
         <g class="ls-flare f1">
           <circle cx="25" cy="10" r="30" fill="url(#lsFlareG)"/>
           <path d="M-35 10H85M25 -48V68" stroke="#ffe9b8" stroke-width=".9" stroke-opacity=".9" fill="none"/>
@@ -125,7 +97,6 @@
           <path d="M276 237H324M300 213V261" stroke="#ffe9b8" stroke-width=".7" stroke-opacity=".7" fill="none"/>
         </g>
       </svg>
-
       <i class="ls-spark" style="left:6%;top:18%;--d:0s"></i>
       <i class="ls-spark" style="left:92%;top:30%;--d:.7s"></i>
       <i class="ls-spark" style="left:78%;top:92%;--d:1.4s"></i>
@@ -134,8 +105,6 @@
       <i class="ls-spark" style="left:104%;top:66%;--d:1.8s"></i>
     </div>
   </div>
-
-  <!-- Progress bar -->
   <div class="ls-bottom">
     <div class="ls-bar"><i id="ldFill"></i></div>
     <p class="ls-text">Memuat pengalaman terbaik...</p>
@@ -143,7 +112,6 @@
   </div>
 </div>
 
-<!-- KUMPULAN IKON -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
@@ -171,13 +139,12 @@
 <symbol id="i-fb" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
 <symbol id="i-tt" viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></symbol>
 <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.6 22 9.3 16.8 14 18.2 21 12 17.5 5.8 21 7.2 14 2 9.3 8.9 8.6 12 2"/></symbol>
-<symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h3v5H5a1 1 0 0 1-1-1v-4zM20 14h-3v5h2a1 1 0 0 0 1-1v-4z"/><path d="M18 19a3 3 0 0 1-3 3h-2"/></symbol>
+<symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h3v5H5a1 1 0 0 1-1-1v-4zM20 14h-3v5h2a1 1 0 0 1 1-1v-4z"/><path d="M18 19a3 3 0 0 1-3 3h-2"/></symbol>
 <symbol id="i-ext" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></symbol>
 <symbol id="i-nav" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></symbol>
 <symbol id="i-chart" viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></symbol>
 </svg>
 
-<!-- NAVBAR -->
 <header class="navbar" id="navbar">
   <a href="#beranda" class="brand">
     <img src="images/logo.png" alt="Logo" onerror="this.style.display='none'">
@@ -206,10 +173,9 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section class="hero" id="beranda">
   <div class="slides">
-    <img class="slide active" src="images/hero.png" alt="Hunian mewah">
+    <img class="slide active" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=85" alt="Hunian mewah">
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -230,7 +196,6 @@
   <div class="dots" id="heroDots" aria-label="Pilih slide"></div>
 </section>
 
-<!-- KEUNGGULAN -->
 <section class="features reveal">
   <div><svg class="ic"><use href="#i-home"/></svg><span data-en="Modern &amp;<br>Elegant Design">Desain Modern<br>&amp; Elegan</span></div>
   <div><svg class="ic"><use href="#i-shield"/></svg><span data-en="24-Hour<br>Security">Keamanan<br>24 Jam</span></div>
@@ -239,7 +204,6 @@
   <div><svg class="ic"><use href="#i-diamond"/></svg><span data-en="Best<br>Investment">Investasi<br>Terbaik</span></div>
 </section>
 
-<!-- UNIT -->
 <section class="section reveal" id="unit">
   <div class="head">
     <div>
@@ -250,17 +214,17 @@
   </div>
   <div class="cards">
     <article class="card">
-      <div class="thumb"><img src="images/hero.png" alt="Tipe 36" onerror="this.onerror=null;this.src='images/hero.png'"><span class="tag"><svg class="ic sm"><use href="#i-home"/></svg>Tipe 36</span><span class="tag m-badge"><svg class="ic sm"><use href="#i-star"/></svg>Premium</span></div>
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85" alt="Tipe 36"><span class="tag"><svg class="ic sm"><use href="#i-home"/></svg>Tipe 36</span><span class="tag m-badge"><svg class="ic sm"><use href="#i-star"/></svg>Premium</span></div>
       <div class="specs"><span><svg class="ic"><use href="#i-land"/></svg>36 m²</span><span><svg class="ic"><use href="#i-building"/></svg>72 m²</span><span><svg class="ic"><use href="#i-bed"/></svg>2 KT</span><span><svg class="ic"><use href="#i-bath"/></svg>1 KM</span></div>
       <div class="price-row"><span class="m-type">Tipe 36</span><strong>Rp 275.000.000</strong><a href="#kpr" class="mini" data-price="275000000"><i data-en="View Detail">Lihat Detail</i> &rarr;</a></div>
     </article>
     <article class="card featured">
-      <div class="thumb"><img src="images/hero.png" alt="Tipe 45" onerror="this.onerror=null;this.src='images/hero.png'"><span class="tag"><svg class="ic sm"><use href="#i-home"/></svg>Tipe 45</span><span class="tag m-badge"><svg class="ic sm"><use href="#i-star"/></svg>Premium</span></div>
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=85" alt="Tipe 45"><span class="tag"><svg class="ic sm"><use href="#i-home"/></svg>Tipe 45</span><span class="tag m-badge"><svg class="ic sm"><use href="#i-star"/></svg>Premium</span></div>
       <div class="specs"><span><svg class="ic"><use href="#i-land"/></svg>45 m²</span><span><svg class="ic"><use href="#i-building"/></svg>90 m²</span><span><svg class="ic"><use href="#i-bed"/></svg>2 KT</span><span><svg class="ic"><use href="#i-bath"/></svg>1 KM</span></div>
       <div class="price-row"><span class="m-type">Tipe 45</span><strong>Rp 385.000.000</strong><a href="#kpr" class="mini" data-price="385000000"><i data-en="View Detail">Lihat Detail</i> &rarr;</a></div>
     </article>
     <article class="card">
-      <div class="thumb"><img src="images/hero.png" alt="Tipe 60" onerror="this.onerror=null;this.src='images/hero.png'"><span class="tag"><svg class="ic sm"><use href="#i-home"/></svg>Tipe 60</span><span class="tag m-badge"><svg class="ic sm"><use href="#i-star"/></svg>Premium</span></div>
+      <div class="thumb"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=85" alt="Tipe 60"><span class="tag"><svg class="ic sm"><use href="#i-home"/></svg>Tipe 60</span><span class="tag m-badge"><svg class="ic sm"><use href="#i-star"/></svg>Premium</span></div>
       <div class="specs"><span><svg class="ic"><use href="#i-land"/></svg>60 m²</span><span><svg class="ic"><use href="#i-building"/></svg>120 m²</span><span><svg class="ic"><use href="#i-bed"/></svg>3 KT</span><span><svg class="ic"><use href="#i-bath"/></svg>2 KM</span></div>
       <div class="price-row"><span class="m-type">Tipe 60</span><strong>Rp 520.000.000</strong><a href="#kpr" class="mini" data-price="520000000"><i data-en="View Detail">Lihat Detail</i> &rarr;</a></div>
     </article>
@@ -268,7 +232,6 @@
   <div class="dots card-dots" id="cardDots" aria-label="Pilih unit"></div>
 </section>
 
-<!-- KPR -->
 <section class="section reveal" id="kpr">
   <svg class="ic kpr-ic"><use href="#i-calc"/></svg>
   <h2 data-en="<span class='gold'>Mortgage</span> Simulation">Simulasi <span class="gold">KPR</span></h2>
@@ -299,7 +262,7 @@
       </div>
     </div>
     <div class="kpr-visual">
-      <img src="images/hero.png" alt="" onerror="this.onerror=null;this.src='images/hero.png'">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="">
       <div class="kpr-result">
         <svg class="ic big"><use href="#i-home"/></svg>
         <small data-en="Estimated Monthly Installment">Estimasi Cicilan per Bulan</small>
@@ -310,23 +273,18 @@
   </div>
 </section>
 
-<!-- LOKASI -->
 <section class="section reveal" id="lokasi">
   <div class="lk">
-
-    <!-- KIRI: judul, kategori, kartu lokasi terdekat -->
     <div class="lk-info">
       <p class="lk-eyebrow"><span class="lk-ico"><svg class="ic"><use href="#i-pin"/></svg></span><b data-en="LOCATION">LOKASI</b><i></i></p>
       <h2 data-en="<span class='gold'>Strategic</span> Location">Lokasi <span class="gold">Strategis</span></h2>
       <p class="lk-sub" data-en="Close to many important facilities, making your life easier and more reachable.">Dekat dengan berbagai fasilitas penting, membuat hidup Anda lebih mudah dan terjangkau.</p>
-
       <div class="lk-cats" id="lkCats">
         <button type="button" class="on" data-poi="school"><svg class="ic"><use href="#i-school"/></svg><span><b data-en="School">Sekolah</b><small>5 Menit</small></span><em>&rsaquo;</em></button>
         <button type="button" data-poi="hospital"><svg class="ic"><use href="#i-med"/></svg><span><b data-en="Hospital">Rumah Sakit</b><small>7 Menit</small></span><em>&rsaquo;</em></button>
         <button type="button" data-poi="city"><svg class="ic"><use href="#i-building"/></svg><span><b data-en="City Center">Pusat Kota</b><small>10 Menit</small></span><em>&rsaquo;</em></button>
         <button type="button" data-poi="terminal"><svg class="ic"><use href="#i-bus"/></svg><span><b data-en="Terminal">Terminal</b><small>15 Menit</small></span><em>&rsaquo;</em></button>
       </div>
-
       <article class="lk-card">
         <div class="lk-card-top">
           <div class="lk-photo">
@@ -345,8 +303,6 @@
         </div>
       </article>
     </div>
-
-    <!-- KANAN: peta interaktif -->
     <div class="lk-map">
       <div class="lk-stage">
         <div id="lkMap" aria-label="Peta lokasi Xerbraz Residence"></div>
@@ -370,20 +326,17 @@
       </div>
     </div>
   </div>
-
-  <!-- STRIP KEUNGGULAN LOKASI -->
   <div class="lk-strip">
-    <img src="images/hero.png" alt="" onerror="this.onerror=null;this.src='images/hero.png'">
+    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="">
     <div><svg class="ic"><use href="#i-shield"/></svg><span data-en="Easy Access<small>to Many Facilities</small>">Akses Mudah<small>ke Berbagai Fasilitas</small></span></div>
     <div><svg class="ic"><use href="#i-pin"/></svg><span data-en="Strategic Location<small>in Jambi City</small>">Lokasi Strategis<small>di Kota Jambi</small></span></div>
     <div><svg class="ic"><use href="#i-chart"/></svg><span data-en="Best Investment<small>for the Future</small>">Investasi Terbaik<small>untuk Masa Depan</small></span></div>
   </div>
 </section>
 
-<!-- KONTAK -->
 <section class="section" id="kontak">
   <div class="cta reveal">
-    <img class="cta-img" src="images/hero.png" alt="" onerror="this.onerror=null;this.src='images/hero.png'">
+    <img class="cta-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="">
     <div class="cta-text">
       <p class="eyebrow" data-en="CONSULT NOW">KONSULTASI SEKARANG</p>
       <h2 data-en="Make Your Dream Home Real">Wujudkan Rumah Impian Anda</h2>
@@ -398,7 +351,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
   <a href="#beranda" class="brand"><img src="images/logo.png" alt="" onerror="this.style.display='none'"><span>Xerbraz.exe</span></a>
   <p>© <span id="year">2026</span> Xerbraz.exe. All rights reserved.</p>
@@ -411,7 +363,6 @@
   </div>
 </footer>
 
-<!-- NAVIGASI BAWAH (khusus mobile) -->
 <nav class="tabbar" id="tabbar" aria-label="Navigasi bawah">
   <a href="#beranda" class="active"><svg class="ic"><use href="#i-home"/></svg><span data-en="Home">Beranda</span></a>
   <a href="#unit"><svg class="ic"><use href="#i-building"/></svg><span data-en="Properties">Properti</span></a>
@@ -420,7 +371,6 @@
 </nav>
 <a class="fab-wa" href="https://wa.me/627777777" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="ic"><use href="#i-wa"/></svg></a>
 
-<!-- MODAL VIDEO -->
 <div class="modal" id="modal">
   <div class="modal-box">
     <button class="close" id="closeModal" aria-label="Tutup">&times;</button>
