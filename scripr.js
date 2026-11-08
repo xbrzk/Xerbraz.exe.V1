@@ -1,35 +1,64 @@
 /* =====================================================================
-   LOADING SCREEN — file gambar berada di ROOT repository GitHub.
-   Nama disamakan dengan nama file yang terlihat di repository.
+   ASET GAMBAR — FOTO ASLI DARI REPOSITORY GITHUB
+   Menggunakan file yang sama, tidak mengganti atau mengedit foto.
    ===================================================================== */
+
+const XERBRAZ_RAW_IMAGE_BASE =
+  "https://raw.githubusercontent.com/xbrzk/Xerbrax.exe.V1/main/";
+
+function xerbrazImageUrl(filename) {
+  const name = String(filename || "").split("/").pop();
+  return XERBRAZ_RAW_IMAGE_BASE + encodeURIComponent(name);
+}
+
+
+/* =====================================================================
+   LOADING SCREEN — GAMBAR ASLI
+   ===================================================================== */
+
 (function () {
-  var files = {
+  const files = {
     wire: "Bygron_laoding scren .jpeg",
     photo: "Bygron_laoding scren1.jpeg"
   };
+
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("img[data-role]").forEach(function (img) {
-      var file = files[img.getAttribute("data-role")];
-      if (!file) { img.remove(); return; }
-      img.onerror = function () { this.remove(); };
-      img.src = encodeURI(file);
+      const file = files[img.getAttribute("data-role")];
+
+      if (!file) {
+        img.remove();
+        return;
+      }
+
+      img.onerror = function () {
+        this.remove();
+      };
+
+      img.src = xerbrazImageUrl(file);
     });
   });
 })();
 
+
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ===== 00. LOADING SCREEN ===== */
+
   const loader = document.getElementById("loader");
+
   if (loader) {
     const MIN_TIME = 2200;
     const SEKALI_PER_SESI = false;
+
     const root = document.documentElement;
     const fill = document.getElementById("ldFill");
     const startAt = Date.now();
-    let pct = 0, finished = false;
 
+    let pct = 0;
+    let finished = false;
     let skip = false;
+
     if (SEKALI_PER_SESI) {
       try {
         skip = sessionStorage.getItem("loaderSeen") === "1";
@@ -43,34 +72,49 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const tick = setInterval(() => {
-      if (pct < 90) setPct(pct + (90 - pct) * 0.06 + 0.2);
+      if (pct < 90) {
+        setPct(pct + (90 - pct) * 0.06 + 0.2);
+      }
     }, 60);
 
     const finish = () => {
       if (finished) return;
+
       finished = true;
       clearInterval(tick);
       setPct(100);
+
       setTimeout(() => {
         loader.classList.add("done");
         root.classList.remove("is-loading");
+
         setTimeout(() => loader.remove(), 1100);
       }, skip ? 0 : 450);
     };
 
-    const onReady = () =>
-      setTimeout(finish, skip ? 0 : Math.max(0, MIN_TIME - (Date.now() - startAt)));
+    const onReady = () => {
+      setTimeout(
+        finish,
+        skip ? 0 : Math.max(0, MIN_TIME - (Date.now() - startAt))
+      );
+    };
 
-    if (document.readyState === "complete") onReady();
-    else window.addEventListener("load", onReady);
+    if (document.readyState === "complete") {
+      onReady();
+    } else {
+      window.addEventListener("load", onReady);
+    }
 
     setTimeout(finish, 7000);
   }
 
+
   /* ===== 0. FOTO WEBSITE =====
-     Foto berada di ROOT repository, bukan folder images/.
-     Nama disesuaikan dengan file yang terlihat di GitHub.
+     Semua foto berada di ROOT repository.
+     Foto dipanggil dari file asli di GitHub.
+     Tidak memakai fetch("images/").
   */
+
   const FOTO = {
     hero: [
       "hero.png",
@@ -85,11 +129,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
 
     kpr: "Rumah Modern Tipe 36 Saat Senja-4.png",
+
     kontak: "Rumah Modern A1 di Senja Hari-1.png",
+
     strip: "Rumah Modern Hangat Saat Senja-6.png"
   };
 
-  // Perbaiki pemanggilan gambar lama yang masih memakai images/
+
+  /* ===== 0A. LOGO DAN FOTO HTML ===== */
+
   document.querySelectorAll('img[src^="images/"]').forEach(img => {
     const file = img.getAttribute("src").split("/").pop();
 
@@ -98,26 +146,37 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     img.style.display = "";
-    img.src = encodeURI(file);
+    img.src = xerbrazImageUrl(file);
   });
 
+
+  /* ===== 0B. MEMASANG FOTO WEBSITE ===== */
+
   const photosReady = Promise.resolve().then(() => {
-    window.__imgList = Object.values(FOTO).flat().filter(Boolean).map(encodeURI);
+
+    window.__imgList = Object.values(FOTO)
+      .flat()
+      .filter(Boolean)
+      .map(xerbrazImageUrl);
 
     const setImg = (selector, filename) => {
       const el = document.querySelector(selector);
+
       if (!el || !filename) return;
 
       el.onerror = function () {
         this.onerror = null;
-        this.style.display = "none";
+        this.removeAttribute("src");
       };
 
-      el.src = encodeURI(filename);
+      el.src = xerbrazImageUrl(filename);
     };
 
     FOTO.unit.forEach((filename, i) => {
-      setImg(".cards .card:nth-child(" + (i + 1) + ") .thumb img", filename);
+      setImg(
+        ".cards .card:nth-child(" + (i + 1) + ") .thumb img",
+        filename
+      );
     });
 
     setImg(".kpr-visual > img", FOTO.kpr);
@@ -125,14 +184,16 @@ document.addEventListener("DOMContentLoaded", () => {
     setImg(".lk-strip > img", FOTO.strip);
 
     return {
-      hero: FOTO.hero.map(encodeURI),
-      unit: FOTO.unit.map(encodeURI),
-      kpr: encodeURI(FOTO.kpr),
-      kontak: encodeURI(FOTO.kontak)
+      hero: FOTO.hero.map(xerbrazImageUrl),
+      unit: FOTO.unit.map(xerbrazImageUrl),
+      kpr: xerbrazImageUrl(FOTO.kpr),
+      kontak: xerbrazImageUrl(FOTO.kontak)
     };
   });
 
+
   /* ===== 1. NAVBAR & MENU MOBILE ===== */
+
   const navbar = document.getElementById("navbar");
   const nav = document.getElementById("nav");
 
@@ -141,14 +202,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   nav.querySelectorAll("a").forEach(a => {
-    a.addEventListener("click", () => nav.classList.remove("open"));
+    a.addEventListener("click", () => {
+      nav.classList.remove("open");
+    });
   });
 
   window.addEventListener("scroll", () => {
     navbar.classList.toggle("scrolled", window.scrollY > 40);
   });
 
+
   /* ===== 2. HERO SLIDER ===== */
+
   const slidesBox = document.querySelector(".slides");
   const curSlide = document.getElementById("curSlide");
   const totSlide = document.getElementById("totSlide");
@@ -156,13 +221,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const arrows = document.querySelector(".arrows");
 
   const DURATION = 5000;
-  let slides = [], index = 0, timer;
+
+  let slides = [];
+  let index = 0;
+  let timer;
 
   function startProgress() {
     if (!progress) return;
+
     progress.style.transition = "none";
     progress.style.width = "0";
+
     void progress.offsetWidth;
+
     progress.style.transition = "width " + DURATION + "ms linear";
     progress.style.width = "100%";
   }
@@ -189,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function auto() {
     clearInterval(timer);
+
     if (slides.length > 1) {
       timer = setInterval(() => show(index + 1), DURATION);
     }
@@ -197,8 +269,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadImg(src) {
     return new Promise(res => {
       const im = new Image();
+
       im.onload = () => res(src);
       im.onerror = () => res(null);
+
       im.src = src;
     });
   }
@@ -216,9 +290,12 @@ document.addEventListener("DOMContentLoaded", () => {
   photosReady
     .then(ph => Promise.all(ph.hero.map(loadImg)))
     .then(list => {
+
       const ok = list.filter(Boolean);
 
-      if (!ok.length) ok.push("hero.png");
+      if (!ok.length) {
+        ok.push(xerbrazImageUrl("hero.png"));
+      }
 
       slidesBox.innerHTML = ok.map((s, i) =>
         '<img class="slide' +
@@ -227,9 +304,11 @@ document.addEventListener("DOMContentLoaded", () => {
         '" alt="Foto hunian ' + (i + 1) + '">'
       ).join("");
 
-      slides = slidesBox.querySelectorAll(".slide");
+      slides = Array.from(slidesBox.querySelectorAll(".slide"));
 
-      totSlide.textContent = String(slides.length).padStart(2, "0");
+      if (totSlide) {
+        totSlide.textContent = String(slides.length).padStart(2, "0");
+      }
 
       if (slides.length < 2 && arrows) {
         arrows.style.display = "none";
@@ -254,13 +333,16 @@ document.addEventListener("DOMContentLoaded", () => {
       auto();
     });
 
+
   /* ===== 3. SIMULASI KPR ===== */
+
   const BUNGA = 5;
 
   const harga = document.getElementById("harga");
   const dpPersen = document.getElementById("dpPersen");
   const dpNominal = document.getElementById("dpNominal");
   const hasil = document.getElementById("hasil");
+
   const tenorBtns = document.querySelectorAll("#tenor button");
 
   let tenor = 10;
@@ -273,9 +355,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function hitung() {
     const h = angka(harga.value);
+
     const dp = h * (parseInt(dpPersen.value, 10) / 100);
+
     const pokok = h - dp;
+
     const r = BUNGA / 100 / 12;
+
     const n = tenor * 12;
 
     const cicilan = pokok > 0
@@ -288,7 +374,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   harga.addEventListener("input", () => {
     const n = angka(harga.value);
+
     harga.value = n ? rupiah(n) : "";
+
     hitung();
   });
 
@@ -297,8 +385,11 @@ document.addEventListener("DOMContentLoaded", () => {
   tenorBtns.forEach(b => {
     b.addEventListener("click", () => {
       tenorBtns.forEach(x => x.classList.remove("on"));
+
       b.classList.add("on");
+
       tenor = parseInt(b.dataset.t, 10);
+
       hitung();
     });
   });
@@ -314,10 +405,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   hitung();
 
+
   /* ===== 4. ANIMASI MUNCUL SAAT SCROLL ===== */
+
   const items = document.querySelectorAll(".reveal");
 
   if ("IntersectionObserver" in window) {
+
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -328,22 +422,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { threshold: 0.12 });
 
     items.forEach(el => io.observe(el));
+
   } else {
     items.forEach(el => el.classList.add("show"));
   }
 
+
   /* ===== 5. MENU AKTIF + PILL GESER HALUS ===== */
+
   const links = document.querySelectorAll(".nav a");
   const tabLinks = document.querySelectorAll(".tabbar a");
   const pill = document.getElementById("pill");
 
-  const sections = ["beranda", "unit", "kpr", "lokasi", "kontak"]
-    .map(id => document.getElementById(id));
+  const sections = [
+    "beranda",
+    "unit",
+    "kpr",
+    "lokasi",
+    "kontak"
+  ].map(id => document.getElementById(id));
 
-  let lock = false, lockTimer;
+  let lock = false;
+  let lockTimer;
 
   function movePill() {
     const a = nav.querySelector("a.active");
+
     if (!a || !pill) return;
 
     pill.style.width = a.offsetWidth + "px";
@@ -351,14 +455,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setActive(id) {
+
     links.forEach(a => {
-      a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+      a.classList.toggle(
+        "active",
+        a.getAttribute("href") === "#" + id
+      );
     });
 
     const tabId = id === "kpr" ? "unit" : id;
 
     tabLinks.forEach(a => {
-      a.classList.toggle("active", a.getAttribute("href") === "#" + tabId);
+      a.classList.toggle(
+        "active",
+        a.getAttribute("href") === "#" + tabId
+      );
     });
 
     movePill();
@@ -366,7 +477,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   [...links, ...tabLinks].forEach(a => {
     a.addEventListener("click", () => {
+
       setActive(a.getAttribute("href").slice(1));
+
       lock = true;
 
       clearTimeout(lockTimer);
@@ -378,6 +491,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.addEventListener("scroll", () => {
+
     if (lock) return;
 
     let current = "beranda";
@@ -407,15 +521,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   movePill();
 
+
   /* ===== 6. TOMBOL KE ATAS ===== */
+
   document.getElementById("toTop").addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   });
 
+
   /* ===== 7. FOOTER YEAR ===== */
-  document.getElementById("year").textContent = new Date().getFullYear();
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
 
   /* ===== 8. VIDEO BUTTON ===== */
+
   const VIDEO_URL = "";
 
   const modal = document.getElementById("modal");
@@ -427,6 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.getElementById("videoBtn").addEventListener("click", () => {
+
     videoWrap.innerHTML = VIDEO_URL
       ? '<iframe src="' + VIDEO_URL +
         '" allow="autoplay; fullscreen" allowfullscreen></iframe>'
@@ -445,7 +570,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape") closeVideo();
   });
 
+
   /* ===== 9. BAHASA (ID / EN) ===== */
+
   const langEl = document.getElementById("lang");
   const langLabel = document.getElementById("langLabel");
   const langItems = document.querySelectorAll("#langMenu li");
@@ -456,11 +583,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function setLang(l) {
+
     translatable.forEach(el => {
       el.innerHTML = l === "en" ? el.dataset.en : el.dataset.id;
     });
 
     document.documentElement.lang = l;
+
     langLabel.textContent = l.toUpperCase();
 
     langItems.forEach(li => {
@@ -498,8 +627,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setLang(saved);
 
+
   /* ===== 9A. MOBILE: PILIHAN BAHASA MASUK KE DALAM MENU ===== */
+
   const mqMobile = window.matchMedia("(max-width: 640px)");
+
   const navRight = document.querySelector(".nav-right");
 
   function placeLang() {
@@ -518,12 +650,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   placeLang();
 
+
   /* ===== 9B. MOBILE: TITIK PENUNJUK CAROUSEL UNIT ===== */
+
   const cardsBox = document.querySelector(".cards");
   const cardDots = document.getElementById("cardDots");
 
   if (cardsBox && cardDots) {
-    const cardList = Array.from(cardsBox.querySelectorAll(".card"));
+
+    const cardList = Array.from(
+      cardsBox.querySelectorAll(".card")
+    );
 
     cardDots.innerHTML = cardList.map((_, n) =>
       '<button type="button" class="dot' +
@@ -537,6 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cardList[n].offsetLeft - cardList[0].offsetLeft;
 
     function syncCardDots() {
+
       let best = 0;
 
       cardList.forEach((_, n) => {
@@ -569,7 +707,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+
   /* ===== 10. PARTIKEL EMAS MELAYANG ===== */
+
   const SHOW_PARTIKEL = true;
 
   if (
@@ -577,17 +717,22 @@ document.addEventListener("DOMContentLoaded", () => {
     !(window.matchMedia &&
       matchMedia("(prefers-reduced-motion: reduce)").matches)
   ) {
+
     const cv = document.createElement("canvas");
+
     cv.id = "fx";
+
     cv.style.cssText =
       "position:fixed;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none";
 
     document.body.appendChild(cv);
 
     const cx = cv.getContext("2d");
+
     let W, H, parts = [];
 
     function size() {
+
       const d = Math.min(window.devicePixelRatio || 1, 2);
 
       W = window.innerWidth;
@@ -600,6 +745,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function mk(init) {
+
       return {
         x: Math.random() * W,
         y: init ? Math.random() * H : H + 10,
@@ -622,10 +768,13 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", size);
 
     (function loop() {
+
       if (!document.hidden) {
+
         cx.clearRect(0, 0, W, H);
 
         parts.forEach((q, i) => {
+
           q.y -= q.v;
           q.p += q.s;
           q.x += Math.sin(q.p) * 0.3;
@@ -650,10 +799,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       requestAnimationFrame(loop);
+
     })();
   }
 
+
   /* ===== 11. LOKASI: PETA INTERAKTIF ===== */
+
   const mapEl = document.getElementById("lkMap");
 
   if (mapEl) {
@@ -666,6 +818,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Koordinat, jarak, dan waktu masih perkiraan/contoh.
     const POI = {
+
       school: {
         icon: "i-school",
         color: "#2f7df6",
@@ -711,7 +864,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
+
     const $ = id => document.getElementById(id);
+
     const chips = document.querySelectorAll("#lkChips button");
     const cats = document.querySelectorAll("#lkCats button");
 
@@ -721,16 +876,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cats.forEach(b => {
       const small = b.querySelector("small");
+
       if (small && POI[b.dataset.poi]) {
         small.textContent = POI[b.dataset.poi].min + " Menit";
       }
     });
+
 
     const gmRoute = p =>
       "https://www.google.com/maps/dir/?api=1&origin=" +
       HOME.lat + "," + HOME.lng +
       "&destination=" + p.lat + "," + p.lng +
       "&travelmode=driving";
+
 
     const hasLeaflet = typeof L !== "undefined";
 
@@ -744,14 +902,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }).setView([HOME.lat, HOME.lng], 16)
       : null;
 
+
     const markers = {};
-    const routeLayer = map ? L.layerGroup().addTo(map) : null;
+
+    const routeLayer = map
+      ? L.layerGroup().addTo(map)
+      : null;
+
     const routeCache = {};
 
     let token = 0;
     let sel = "all";
 
+
     function pinHtml(color, icon, title, sub, cls) {
+
       return '<div class="mk ' + (cls || "") + '" style="--c:' + color + '">' +
         '<span class="mk-pin"><svg class="ic"><use href="#' + icon + '"/></svg></span>' +
         '<span class="mk-lbl"><b>' + title + '</b>' +
@@ -759,7 +924,10 @@ document.addEventListener("DOMContentLoaded", () => {
         '</span></div>';
     }
 
+
     if (map) {
+
+      // Citra satelit Esri
       L.tileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         {
@@ -777,11 +945,15 @@ document.addEventListener("DOMContentLoaded", () => {
         position: "bottomright"
       }).addTo(map);
 
+
       Object.keys(POI).forEach(k => {
+
         const p = POI[k];
 
         markers[k] = L.marker([p.lat, p.lng], {
+
           keyboard: false,
+
           icon: L.divIcon({
             className: "mk-wrap",
             iconSize: [0, 0],
@@ -792,37 +964,54 @@ document.addEventListener("DOMContentLoaded", () => {
               p.min + " mnt • " + p.km + " km"
             )
           })
+
         }).addTo(map);
       });
 
+
       L.marker([HOME.lat, HOME.lng], {
+
         keyboard: false,
         zIndexOffset: 1000,
+
         icon: L.divIcon({
           className: "mk-wrap",
           iconSize: [0, 0],
-          html: pinHtml("#c8923a", "i-home", HOME.name, "", "mk-home")
+          html: pinHtml(
+            "#c8923a",
+            "i-home",
+            HOME.name,
+            "",
+            "mk-home"
+          )
         })
+
       }).addTo(map);
+
 
       map.on("click focus", () => map.scrollWheelZoom.enable());
       map.on("mouseout", () => map.scrollWheelZoom.disable());
 
     } else {
+
       mapEl.innerHTML =
         '<iframe title="Peta Lokasi" loading="lazy" style="width:100%;height:100%;border:0" src="https://maps.google.com/maps?q=' +
-        HOME.lat + ',' + HOME.lng + '&z=17&output=embed"></iframe>';
+        HOME.lat + ',' + HOME.lng +
+        '&z=17&output=embed"></iframe>';
 
       $("lkChips").style.display = "none";
       $("lkNorth").style.display = "none";
     }
 
+
     function drawRoute(p) {
+
       if (!map) return;
 
       const t = ++token;
 
       const paint = (pts, dashed) => {
+
         if (t !== token) return;
 
         routeLayer.clearLayers();
@@ -848,21 +1037,27 @@ document.addEventListener("DOMContentLoaded", () => {
           interactive: false
         }).addTo(routeLayer);
 
+
         const mid = pts[Math.floor(pts.length / 2)];
 
         L.marker(mid, {
+
           interactive: false,
           keyboard: false,
+
           icon: L.divIcon({
             className: "mk-wrap",
             iconSize: [0, 0],
+
             html:
               '<div class="rt"><svg class="ic"><use href="#i-car"/></svg>' +
               '<span><b>' + p.min + ' Menit</b>' +
               '<small>' + p.km + ' km</small></span></div>'
           })
+
         }).addTo(routeLayer);
       };
+
 
       if (routeCache[p.key]) {
         paint(routeCache[p.key], false);
@@ -871,6 +1066,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       paint([[HOME.lat, HOME.lng], [p.lat, p.lng]], true);
 
+      // Rute jalan dari OSRM.
       fetch(
         "https://router.project-osrm.org/route/v1/driving/" +
         HOME.lng + "," + HOME.lat + ";" +
@@ -879,37 +1075,60 @@ document.addEventListener("DOMContentLoaded", () => {
       )
         .then(r => r.json())
         .then(d => {
-          const c = d.routes && d.routes[0] && d.routes[0].geometry.coordinates;
+
+          const c =
+            d.routes &&
+            d.routes[0] &&
+            d.routes[0].geometry.coordinates;
+
           if (!c) return;
 
           const pts = c.map(x => [x[1], x[0]]);
+
           routeCache[p.key] = pts;
+
           paint(pts, false);
         })
         .catch(() => {});
     }
 
+
     function updateCard(p) {
+
       $("lkBadge").textContent = p.badge;
       $("lkName").textContent = p.name;
       $("lkDist").textContent = "± " + p.km + " km dari Perumahan";
       $("lkTime").textContent = p.min + " Menit Perjalanan";
+
       $("lkRoute").href = gmRoute(p);
-      $("lkBarText").textContent = "Rute dari " + HOME.name + " ke " + p.name;
+
+      $("lkBarText").textContent =
+        "Rute dari " + HOME.name + " ke " + p.name;
+
       $("lkBarGo").href = gmRoute(p);
+
       $("lkPhotoIc").setAttribute("href", "#" + p.icon);
 
       const img = $("lkImg");
-      img.style.display = "none";
-      img.onload = () => { img.style.display = "block"; };
-      img.onerror = () => { img.style.display = "none"; };
 
-      // Tidak menebak nama foto lokasi yang belum ada.
-      // Ikon bawaan tetap dipakai.
+      img.style.display = "none";
+
+      img.onload = () => {
+        img.style.display = "block";
+      };
+
+      img.onerror = () => {
+        img.style.display = "none";
+      };
+
+      // Foto lokasi belum terdapat dalam daftar file repository.
+      // Pertahankan ikon bawaan agar tidak menghasilkan 404.
       img.removeAttribute("src");
     }
 
+
     function fit() {
+
       if (!map) return;
 
       const pts = [[HOME.lat, HOME.lng]];
@@ -929,7 +1148,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+
     function showPoi(key) {
+
       sel = key;
 
       const p = key === "all" ? POI.school : POI[key];
@@ -947,6 +1168,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!map) return;
 
       Object.keys(markers).forEach(k => {
+
         const vis = key === "all" || k === key;
 
         if (vis && !map.hasLayer(markers[k])) {
@@ -962,6 +1184,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fit();
     }
 
+
     chips.forEach(b => {
       b.addEventListener("click", () => showPoi(b.dataset.poi));
     });
@@ -974,7 +1197,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showPoi("all");
 
+
     if (map) {
+
       setTimeout(() => {
         map.invalidateSize();
         fit();
@@ -990,22 +1215,29 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+
     /* salin koordinat */
+
     const copyBtn = $("copyCoord");
 
     if (copyBtn) {
+
       copyBtn.addEventListener("click", () => {
+
         const teks = HOME.lat + ", " + HOME.lng;
 
         const selesai = () => {
           copyBtn.textContent = "Tersalin ✓";
+
           setTimeout(() => {
             copyBtn.textContent = "Salin koordinat";
           }, 1500);
         };
 
         if (navigator.clipboard) {
-          navigator.clipboard.writeText(teks).then(selesai).catch(selesai);
+          navigator.clipboard.writeText(teks)
+            .then(selesai)
+            .catch(selesai);
         } else {
           selesai();
         }
@@ -1014,103 +1246,3 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
-
-/* =========================================================
-   XERBRAZ.EXE — PERBAIKAN JALUR FOTO GITHUB PAGES
-   Memperbaiki alamat foto yang salah tanpa mengganti foto.
-   ========================================================= */
-
-(function () {
-  function getAssetBase() {
-    const script = Array.from(document.scripts).find(s =>
-      /scripr\.js(?:[?#].*)?$/i.test(s.getAttribute("src") || "")
-    );
-
-    return new URL(
-      ".",
-      script && script.src ? script.src : window.location.href
-    );
-  }
-
-  const assetBase = getAssetBase();
-
-  function fixAssetPath(raw) {
-    if (!raw) return null;
-
-    raw = raw.trim();
-
-    // Jangan mengubah gambar eksternal, data URL, atau SVG fragment.
-    if (/^(data:|blob:|https?:\/\/|#)/i.test(raw)) {
-      return null;
-    }
-
-    try {
-      const resolved = new URL(raw, assetBase);
-
-      if (resolved.origin !== assetBase.origin) {
-        return null;
-      }
-
-      // Ambil nama file saja karena foto berada di root repository.
-      const parts = resolved.pathname.split("/").filter(Boolean);
-      const filename = parts.pop();
-
-      if (!filename) return null;
-
-      return new URL(
-        encodeURIComponent(decodeURIComponent(filename)),
-        assetBase
-      ).href;
-
-    } catch (error) {
-      console.warn("Jalur foto tidak valid:", raw, error);
-      return null;
-    }
-  }
-
-  function repairImage(img) {
-    if (!(img instanceof HTMLImageElement)) return;
-
-    const original = img.getAttribute("src");
-    if (!original) return;
-
-    const corrected = fixAssetPath(original);
-
-    if (corrected && img.src !== corrected) {
-      img.src = corrected;
-    }
-  }
-
-  // Memperbaiki semua gambar yang sudah ada.
-  document.querySelectorAll("img[src]").forEach(repairImage);
-
-  // Memperbaiki gambar yang dimasukkan JavaScript setelah halaman dimuat.
-  const observer = new MutationObserver(records => {
-    records.forEach(record => {
-      if (record.type === "attributes") {
-        repairImage(record.target);
-      }
-
-      record.addedNodes.forEach(node => {
-        if (node.nodeType !== 1) return;
-
-        if (node instanceof HTMLImageElement) {
-          repairImage(node);
-        }
-
-        if (node.querySelectorAll) {
-          node.querySelectorAll("img[src]").forEach(repairImage);
-        }
-      });
-    });
-  });
-
-  observer.observe(document.documentElement, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ["src"]
-  });
-
-  console.log("Xerbraz.exe: pemeriksaan jalur foto aktif.");
-})();
