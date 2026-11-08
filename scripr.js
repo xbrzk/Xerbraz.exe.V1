@@ -1,17 +1,22 @@
-/* =====================================================================
-   ASET GAMBAR — FOTO ASLI DARI REPOSITORY GITHUB
-   Menggunakan file yang sama, tidak mengganti atau mengedit foto.
-   ===================================================================== */
-
-const XERBRAZ_RAW_IMAGE_BASE =
-  "https://raw.githubusercontent.com/xbrzk/Xerbrax.exe.V1/main/";
+/* =========================================================
+   XERBRAZ.EXE — PEMBENTUK ALAMAT FOTO
+   Menggunakan lokasi website GitHub Pages secara otomatis.
+   Tidak mengubah nama atau isi foto.
+   ========================================================= */
 
 function xerbrazImageUrl(filename) {
-  const name = String(filename || "").split("/").pop();
-  return XERBRAZ_RAW_IMAGE_BASE + encodeURIComponent(name);
+  const name = String(filename || "")
+    .replace(/\\/g, "/")
+    .split("/")
+    .pop();
+
+  const siteRoot = new URL(".", document.baseURI);
+
+  return new URL(
+    encodeURIComponent(name),
+    siteRoot
+  ).href;
 }
-
-
 /* =====================================================================
    LOADING SCREEN — GAMBAR ASLI
    ===================================================================== */
