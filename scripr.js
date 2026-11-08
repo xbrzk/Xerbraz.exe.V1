@@ -1014,3 +1014,103 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+/* =========================================================
+   XERBRAZ.EXE — PERBAIKAN JALUR FOTO GITHUB PAGES
+   Memperbaiki alamat foto yang salah tanpa mengganti foto.
+   ========================================================= */
+
+(function () {
+  function getAssetBase() {
+    const script = Array.from(document.scripts).find(s =>
+      /scripr\.js(?:[?#].*)?$/i.test(s.getAttribute("src") || "")
+    );
+
+    return new URL(
+      ".",
+      script && script.src ? script.src : window.location.href
+    );
+  }
+
+  const assetBase = getAssetBase();
+
+  function fixAssetPath(raw) {
+    if (!raw) return null;
+
+    raw = raw.trim();
+
+    // Jangan mengubah gambar eksternal, data URL, atau SVG fragment.
+    if (/^(data:|blob:|https?:\/\/|#)/i.test(raw)) {
+      return null;
+    }
+
+    try {
+      const resolved = new URL(raw, assetBase);
+
+      if (resolved.origin !== assetBase.origin) {
+        return null;
+      }
+
+      // Ambil nama file saja karena foto berada di root repository.
+      const parts = resolved.pathname.split("/").filter(Boolean);
+      const filename = parts.pop();
+
+      if (!filename) return null;
+
+      return new URL(
+        encodeURIComponent(decodeURIComponent(filename)),
+        assetBase
+      ).href;
+
+    } catch (error) {
+      console.warn("Jalur foto tidak valid:", raw, error);
+      return null;
+    }
+  }
+
+  function repairImage(img) {
+    if (!(img instanceof HTMLImageElement)) return;
+
+    const original = img.getAttribute("src");
+    if (!original) return;
+
+    const corrected = fixAssetPath(original);
+
+    if (corrected && img.src !== corrected) {
+      img.src = corrected;
+    }
+  }
+
+  // Memperbaiki semua gambar yang sudah ada.
+  document.querySelectorAll("img[src]").forEach(repairImage);
+
+  // Memperbaiki gambar yang dimasukkan JavaScript setelah halaman dimuat.
+  const observer = new MutationObserver(records => {
+    records.forEach(record => {
+      if (record.type === "attributes") {
+        repairImage(record.target);
+      }
+
+      record.addedNodes.forEach(node => {
+        if (node.nodeType !== 1) return;
+
+        if (node instanceof HTMLImageElement) {
+          repairImage(node);
+        }
+
+        if (node.querySelectorAll) {
+          node.querySelectorAll("img[src]").forEach(repairImage);
+        }
+      });
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ["src"]
+  });
+
+  console.log("Xerbraz.exe: pemeriksaan jalur foto aktif.");
+})();
